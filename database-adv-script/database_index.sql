@@ -35,3 +35,20 @@ CREATE INDEX idx_property_owner ON Property(owner_id);
 -- Composite indexes for common filter combinations
 CREATE INDEX idx_property_location_type ON Property(city, property_type);
 CREATE INDEX idx_property_location_price ON Property(city, price_per_night);
+
+
+-- Measure the query performance before and after adding indexes
+-- EXPLAIN ANALYZE for Booking and Property Tables
+
+EXPLAIN ANALYZE
+SELECT p.*
+FROM Property p
+LEFT JOIN Booking b 
+  ON p.id = b.property_id
+  AND b.check_in_date <= '2025-06-15'
+  AND b.check_out_date >= '2025-06-10'
+  AND b.status = 'confirmed'
+WHERE p.city = 'Paris'
+  AND p.price_per_night BETWEEN 100 AND 300
+  AND b.id IS NULL
+ORDER BY p.price_per_night ASC;
