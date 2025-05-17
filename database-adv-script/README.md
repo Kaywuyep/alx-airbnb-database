@@ -69,3 +69,7 @@ Be explicit about join conditions
 Consider the performance impact of different join types
 Use appropriate indexes on join columns
 Test your queries with different data scenarios
+
+
+Non-correlated Subquery: Key characteristics are the inner query can run independently and doesn't reference the outer query.
+Correlated Subquery: Key characteristics are the inner query references the outer query (note b.user_id = u.user_id) and is executed once for each row processed by the outer query.
