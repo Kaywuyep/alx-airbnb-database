@@ -70,6 +70,29 @@ Consider the performance impact of different join types
 Use appropriate indexes on join columns
 Test your queries with different data scenarios
 
+##### Subqueries
 
 Non-correlated Subquery: Key characteristics are the inner query can run independently and doesn't reference the outer query.
 Correlated Subquery: Key characteristics are the inner query references the outer query (note b.user_id = u.user_id) and is executed once for each row processed by the outer query.
+
+##### My aggregation query uses:
+
+Joins the users and bookings tables
+Uses COUNT() to calculate the total bookings per user
+Uses GROUP BY to aggregate results by user
+Uses LEFT JOIN to include users with no bookings (they'll have a count of 0)
+Orders results by number of bookings in descending order
+
+Query 2: Ranking Properties by Number of Bookings (Window Functions)
+This query:
+
+Uses COUNT() to calculate the total bookings per property
+Uses the window function ROW_NUMBER() to assign a unique sequential rank to each property
+Properties with the most bookings get the lowest rank numbers (1, 2, 3, etc.)
+
+**The difference between ROW_NUMBER() and RANK() is that:**
+
+ROW_NUMBER() always assigns sequential numbers (1, 2, 3, 4...)
+RANK() assigns the same rank to ties and skips the next rank (1, 1, 3, 4...)
+
+For example, if two properties both have 10 bookings (tied for most), RANK() would give them both rank 1, and the next property would get rank 3.
